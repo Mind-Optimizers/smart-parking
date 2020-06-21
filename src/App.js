@@ -1,12 +1,16 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import AppNavigator from './screens'
+import { Provider as PaperProvider } from 'react-native-paper';
+import { theme, primaryDark } from './constants';
+import { StatusBar } from 'react-native';
 
 const App = () => {
-  return (
-    <View>
-      <Text>Chetan Shettighar Rinkiya Ke Papa!!!</Text>
-    </View>
-  )
+	StatusBar.setBackgroundColor(primaryDark)
+	return (
+		<PaperProvider theme={theme}>
+		    <AppNavigator />
+		</PaperProvider>
+	)
 }
 
 export default App
