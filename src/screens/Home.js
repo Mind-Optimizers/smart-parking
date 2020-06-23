@@ -1,22 +1,44 @@
-import React from 'react'
-import { View, StyleSheet, StatusBar } from 'react-native'
-import { Text, Appbar } from 'react-native-paper'
+import React, {useState} from 'react'
+import { View, StyleSheet, StatusBar, Dimensions, TextInput } from 'react-native'
+import { Text, Appbar, IconButton } from 'react-native-paper'
 import { primary } from '../constants'
 import MapView from 'react-native-maps'
-import { TextInput } from 'react-native'
 
-const Home = () => {
+
+const Home = props => {
 
     StatusBar.setTranslucent(true)
     StatusBar.setBackgroundColor('transparent')
     StatusBar.setBarStyle("dark-content")
 
+
+    const {navigation} = props;
+
+    const [text, setText] = useState(null)
+
     return (
         <View style={styles.container}>
-            <View style={{marginHorizontal: 20}}>
-                <TextInput style={styles.searchBar} onChangeText={text => onChangeText(text)} placeholder="Search Parking Zone" />
+             <MapView style={{flex: 1}}/>
+            <View style={styles.searchBar}>
+                
+                <IconButton 
+                icon="menu"
+                onPress={() => {
+                    navigation.openDrawer()
+                }}
+                color="#5d5d5d"
+                />
+
+                <TextInput 
+                style={{
+                    height: 40,
+                    width: '100%',
+                    color: '#000'
+                }}
+                onChangeText={text => setText(text)} 
+                placeholder="Search Parking Zones"/>
             </View>
-            <MapView style={{flex: 1}}/>
+           
             
         </View>
         
@@ -35,13 +57,15 @@ const styles = StyleSheet.create({
     searchBar:{
         position: "absolute",
         height: 40,
-        borderRadius: 200,
+        borderRadius: 6,
         backgroundColor: "#FFF",
         top: 70,
-        width: "100%",
+        width: Dimensions.get('window').width - 30,
         elevation: 4,
         padding: 10,
-    
+        marginHorizontal: 15,
+        flexDirection: 'row',
+        alignItems: 'center'
     }    
 })
 

@@ -1,15 +1,71 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator,  DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import { Drawer as PaperDrawer } from 'react-native-paper';
 import { connect } from 'react-redux';
 import auth from '@react-native-firebase/auth'
 import Splash from './Splash';
 import Home from './Home';
 import SignIn from './SignIn';
 import { loginUser } from '../state/actions';
-
+import { useRoute } from '@react-navigation/native';
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+const CustomContent = props => {
+    const route = useRoute();
+    const {user} = props;
+    return (
+        <DrawerContentScrollView {...props}>
+            <View style={{
+                paddingVertical: 10,
+                paddingHorizontal: 20,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+            }}>
+                <Image 
+                    source={{
+                        uri: user.dp
+                    }}
+                    style={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: 25
+                    }}
+                />
+                <Text>{user.name}</Text>
+            </View>
+            <PaperDrawer.Item 
+            icon="home"
+            label="Home"
+            active={route.name === 'Home'}
+            />
+            <PaperDrawer.Item 
+            icon="face-profile"
+            label="Profile"
+            active={route.name === 'Profile'}
+            />
+        </DrawerContentScrollView>
+    )
+}
+
+const FinDrawer = connect(({user}) => ({user}))(CustomContent)
+
+const HomeNavigation = props => {
+    return (
+        <Drawer.Navigator
+            drawerContent={_props => <FinDrawer {..._props}/>}
+        >
+
+            <Drawer.Screen 
+            name="Home" 
+            component={Home}/>
+        </Drawer.Navigator>
+    )
+}
 
 const AppNavigator = props => {
 
@@ -43,18 +99,17 @@ const AppNavigator = props => {
                     headerShown: false,
                 }}
             >
-                {user.id ?  <Stack.Screen 
-                name="Home" 
-                component={Home} /> : 
-                <Stack.Screen 
+                {user.id ? <Stack.Screen 
+                    name="Home"
+                    component={HomeNavigation}
+                    /> : 
+                    <Stack.Screen 
                 name="SignIn" 
                 component={SignIn} />
                 }
-                
-                
             </Stack.Navigator>
         </NavigationContainer>
-    )
+    ) 
 }
 
 const mapStateToProps = ({user}) => ({user})
