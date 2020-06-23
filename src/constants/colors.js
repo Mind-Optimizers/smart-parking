@@ -12,7 +12,7 @@ export const theme = {
         ...DefaultTheme.colors,
         primary,
         accent,
-        text: '#fff',
+        text: '#000',
         surface: '#fff'
     }
 }
