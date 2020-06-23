@@ -8,6 +8,7 @@ import { TextInput } from 'react-native'
 const Home = () => {
 
     StatusBar.setTranslucent(true)
+    StatusBar.setBackgroundColor('transparent')
     StatusBar.setBarStyle("dark-content")
 
     return (

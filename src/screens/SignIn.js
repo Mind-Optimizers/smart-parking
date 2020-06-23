@@ -6,15 +6,18 @@ import { Text, View, Image, StatusBar } from 'react-native'
 import { authPageStyles as styles } from '../styles/AuthPageStyles'
 
 //auth
-import AuthLogin from '../backend/AuthLogin'
+import {onGoogleButtonPress, onFacebookButtonPress} from '../backend/AuthLogin'
 
-const goToHome = () => {
-    props.navigation.navigate("Home")
-}
+
 
 const SignIn = (props) => {
     StatusBar.setBackgroundColor('#fff')
     StatusBar.setBarStyle('dark-content')
+
+    const goToHome = () => {
+        props.navigation.navigate("Home")
+    }
+
     return (
         <Surface style={styles.container}>
             <View style={{flex: 1, justifyContent: 'center'}}>
@@ -32,10 +35,10 @@ const SignIn = (props) => {
             <View style={{
                 marginHorizontal: 20,
             }}> 
-                <Button style={styles.button} mode="contained" color="#ea4335" icon="google" onPress={() => AuthLogin.onGoogleButtonPress().then(goToHome())}>
+                <Button style={styles.button} mode="contained" color="#ea4335" icon="google" onPress={() => onGoogleButtonPress().then(goToHome)}>
                     Sign In With Google
                 </Button>
-                <Button style={styles.button} mode="contained" color="#3b5998" icon="facebook" onPress={() => AuthLogin.onFacaebookButtonPress().then(goToHome())}>
+                <Button style={styles.button} mode="contained" color="#3b5998" icon="facebook" onPress={() => onFacebookButtonPress().then(goToHome)}>
                     Sign In With Facebook
                 </Button>
             </View>
