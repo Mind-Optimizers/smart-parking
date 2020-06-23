@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text } from 'react-native'
+import { View, Image, StatusBar } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
+
+//styles
+import { splashScreenStyles as styles } from '../styles/SplashScreenStyles'
+
+import AppLogo from '../constants/applogo'
 
 const Splash = props => {
 
-    useEffect(() => {
-        setTimeout(() => {
-            props.navigation.navigate('SignIn')
-        }, 3000);
-    }, [])
+
+    StatusBar.setBarStyle('light-content')
 
     return (
-        <View>
-            <Text>Splash Screen</Text>
+        <View style={styles.container}>
+            <AppLogo width="150" height="200"/>
+            <ActivityIndicator color="#834293" size="large" style={ styles.loader } />
         </View>
     )
 }

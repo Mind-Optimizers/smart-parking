@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "829619027200-bhukm6bpedkcm3jja5k7deuecdlbmfja.apps.googleusercontent.com",
+          "client_id": "829619027200-3e4f3pjjf904vlitc9qak73vp6k5um4r.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.smartparking",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+            "certificate_hash": "ef11cb2d5ffe7a3a293229eab49588944e4decb9"
           }
         },
         {
