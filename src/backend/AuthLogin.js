@@ -1,6 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { GoogleSignin } from '@react-native-community/google-signin';
+import { getParkingSpaces } from './FetchLocations'  //change afterwards
 
 export async function onFacebookButtonPress() {
   // Attempt login with permissions
