@@ -40,7 +40,8 @@ export async function getParkingSpace(location_id) {
     return parking_space
 }
 
-// getSlots(location_id)
+// getSlots('Ogf9P2p73QzSqq5HA0Xx')
+
 
 // getParkingSpaces()
 
