@@ -117,10 +117,11 @@ const Home = props => {
                 
                 <IconButton 
                 icon="menu"
+                color = {primary}
                 onPress={() => {
                     navigation.openDrawer()
                 }}
-                color="#5d5d5d"
+
                 />
 
                 <TextInput 
@@ -158,8 +159,10 @@ const styles = StyleSheet.create({
         position: "absolute",
         height: 40,
         borderRadius: 6,
+        
+        borderColor:primary,
         backgroundColor: "#FFF",
-        top: 40,
+        top: 50,
         width: Dimensions.get('window').width - 30,
         elevation: 4,
         padding: 10,
