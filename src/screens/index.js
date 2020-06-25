@@ -11,12 +11,16 @@ import Home from './Home';
 import SignIn from './SignIn';
 import { loginUser } from '../state/actions';
 import { useRoute } from '@react-navigation/native';
+
+import ParkingInfo from '../screens/ParkingInfo'
+
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
+
 const CustomContent = props => {
     const route = useRoute();
-    const {user} = props;
+    const {user, navigation} = props;
     return (
         <DrawerContentScrollView {...props}>
             <View style={{
@@ -48,6 +52,12 @@ const CustomContent = props => {
             label="Profile"
             active={route.name === 'Profile'}
             />
+            <PaperDrawer.Item 
+            icon="face-profile"
+            label="Book"
+            active={route.name === 'Book'}
+            onPress={() => navigation.navigate('Book')}
+            />
         </DrawerContentScrollView>
     )
 }
@@ -63,6 +73,9 @@ const HomeNavigation = props => {
             <Drawer.Screen 
             name="Home" 
             component={Home}/>
+            <Drawer.Screen 
+            name="Book" 
+            component={ParkingInfo}/>
         </Drawer.Navigator>
     )
 }
