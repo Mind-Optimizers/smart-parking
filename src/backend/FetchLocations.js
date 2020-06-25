@@ -11,7 +11,7 @@ export async function getParkingSpaces() {
         id: document.id
     }));
 
-    // console.log(parking_spaces)
+    console.log(parking_spaces)
 
     return parking_spaces
 }
@@ -29,6 +29,19 @@ export async function getSlots(location_id) {
     return slotArray
 }
 
+export async function addParkingSpaces(parking_spaces) {
+    firestore().collection('parking_spaces').add({...parking_spaces})
+}
+
+export async function addSlots(location_id, slotArray) {
+    firestore().collection(`parking_spaces/${location_id}/slots`).add({...slotArray})
+}
+
 getSlots('Ogf9P2p73QzSqq5HA0Xx')
 
 getParkingSpaces()
+
+addParkingSpaces(parking_spaces)
+
+addSlots(location_id, slotArray)
+
