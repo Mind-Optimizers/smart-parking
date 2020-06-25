@@ -1,8 +1,6 @@
 import React from 'react';
 import firestore from '@react-native-firebase/firestore';
 
-
-
 export async function getParkingSpaces() {
     const parking_spaces = []
     const spaces = await firestore().collection('parking_spaces').get();
@@ -18,7 +16,7 @@ export async function getParkingSpaces() {
 
 export async function getSlots(location_id) {
     const slotArray = []
-    const slots = await firestore().collection(`parking_spaces/${location_id}/slots`).get();
+    const slots = await firestore().collection(`parking_spaces/${location_id}/slots`).where('occupied', '==', false).get();
     slots.forEach(slot => slotArray.push({
         ...slot.data(),
         id: slot.id
@@ -30,18 +28,23 @@ export async function getSlots(location_id) {
 }
 
 export async function addParkingSpaces(parking_spaces) {
-    firestore().collection('parking_spaces').add({...parking_spaces})
+    await firestore().collection('parking_spaces').add({...parking_spaces})
 }
 
 export async function addSlots(location_id, slotArray) {
-    firestore().collection(`parking_spaces/${location_id}/slots`).add({...slotArray})
+    await firestore().collection(`parking_spaces/${location_id}/slots`).add({...slotArray})
 }
 
-getSlots('Ogf9P2p73QzSqq5HA0Xx')
+export async function getParkingSpace(location_id) {
+    const parking_space = (await firestore().collection('parking_spaces').doc(location_id).get()).data()
+    return parking_space
+}
 
-getParkingSpaces()
+// getSlots(location_id)
 
-addParkingSpaces(parking_spaces)
+// getParkingSpaces()
 
-addSlots(location_id, slotArray)
+// addParkingSpaces(parking_spaces)
+
+// addSlots(location_id, slotArray)
 
