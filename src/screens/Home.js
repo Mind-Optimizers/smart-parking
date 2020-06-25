@@ -60,6 +60,11 @@ const Home = props => {
     useEffect(() => {
         (async () => {
             const d = await getParkingSpaces()
+            d.map(d => ({
+                ...d,
+                distance: getDistance(d.geo_location, location)
+            }))
+            d.sort((a, b) => a.distance - b.distance)
             setData(d)
             setIData(d)
         })()

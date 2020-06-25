@@ -4,15 +4,23 @@ import { Portal, Dialog, ActivityIndicator, Text } from 'react-native-paper'
 
 const LoadingDialog = props => {
 
-    const {visible, onDismiss, title, description} = props
+    const {visible, onDismiss, title="Loading", description="Please Wait"} = props
 
     return (
         <Portal>
-            <Dialog visible={visible} onDismiss={onDismiss}>
+            <Dialog 
+            dismissable={false}
+            visible={visible} 
+            onDismiss={onDismiss}>
                 <Dialog.Title>{title}</Dialog.Title>
-                <Dialog.Content>
-                    <ActivityIndicator />
-                    <Text>{description}</Text>
+                <Dialog.Content style={{
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                }}>
+                    <ActivityIndicator size="large"/>
+                    <Text style={{
+                        marginLeft: 20,
+                    }}>{description}</Text>
                 </Dialog.Content>
             </Dialog>
         </Portal>

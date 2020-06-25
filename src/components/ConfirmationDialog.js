@@ -5,6 +5,7 @@ import { Portal, Dialog, Button, Paragraph } from 'react-native-paper'
 const ConfirmationDialog = props => {
 
     const {title, body, onCancel, onAccept, onDismiss, visible,
+        noCancel,
     positiveText,
     negativeText
     } = props
@@ -20,7 +21,7 @@ const ConfirmationDialog = props => {
                     <Paragraph>{body}</Paragraph>
                 </Dialog.Content>
                 <Dialog.Actions>
-                    <Button onPress={onCancel}>{negativeText}</Button>
+                    {!noCancel && <Button onPress={onCancel}>{negativeText}</Button>}
                     <Button onPress={onAccept}>{positiveText}</Button>
                 </Dialog.Actions>
             </Dialog>

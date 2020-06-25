@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { View, Image, StatusBar, Text } from 'react-native'
 
 //styles
@@ -11,6 +11,10 @@ import { primary, textLight } from '../constants'
 // import { getParkingSpace } from '../backend/FetchLocations'
 
 import Home from '../screens/Home'
+import LoadingDialog from '../components/LoadingDialog'
+import BottomSheet from '../components/BottomSheet'
+import { lockSlot } from '../backend/ticket'
+import ConfirmationDialog from '../components/ConfirmationDialog'
 
 
 export default ParkingInfo = ({ navigation, route }) => {
@@ -18,13 +22,34 @@ export default ParkingInfo = ({ navigation, route }) => {
     StatusBar.setBackgroundColor('transparent')
     StatusBar.setBarStyle("light-content")
 
+
+
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+
     const data = route.params
+
+    const bottomSheet = useRef()
 
     return (
         <View style={ styles.container }>
             <Image 
                 source={{uri: data.thumbnail}}
                 style={ styles.thumbnails }
+            />
+            <ConfirmationDialog 
+                visible={!!error}
+                positiveText="OK"
+                onDismiss={() => setError(null)}
+                title="Error" 
+                body={error} 
+                noCancel
+                onAccept={() => setError(null)} 
+            />
+            <LoadingDialog 
+            visible={loading}
+            title="Checking Availability"
+            onDismiss={() => setLoading(false)}
             />
             <IconButton
                 icon="chevron-left"
@@ -63,7 +88,24 @@ export default ParkingInfo = ({ navigation, route }) => {
                 style={styles.bookBtn}
                 size={20} 
                 label="Book Now"
-                onPress={() => console.log("jsdgj")}
+                onPress={() => bottomSheet.current.open()}
+            />
+
+            <BottomSheet 
+            innerRef={bottomSheet}
+            onChoose={async () => {
+                bottomSheet.current.close()
+                setLoading(true)
+                try {
+                    const slotId = await lockSlot(data.id, data.rate)
+                    console.log(`${slotId} locked`)
+                    console.log(``)
+                } catch (error) {
+                    console.log(error)
+                    setError(error.message)
+                }
+                setLoading(false)
+            }}
             />
         </View>
     )
