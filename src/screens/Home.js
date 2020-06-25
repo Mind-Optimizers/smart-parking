@@ -6,10 +6,11 @@ import MapView, {Marker} from 'react-native-maps'
 import CustomCarousel from '../components/carousel'
 import { getParkingSpaces } from '../backend/FetchLocations'
 import RNLocation from 'react-native-location';
+import {getDistance} from '../utils/distance';
+import { ParkingInfoStyles } from '../styles/ParkingInfoStyles'
 
 
 const Home = props => {
-
     const [idata, setIData] = useState([])
     const [data, setData] = useState([])
     const initalRegion = {
@@ -59,10 +60,11 @@ const Home = props => {
 
     useEffect(() => {
         (async () => {
-            const d = await getParkingSpaces()
-            d.map(d => ({
-                ...d,
-                distance: getDistance(d.geo_location, location)
+            let d = await getParkingSpaces()
+
+            d = d.map(d => ({
+            ...d,
+            distance: getDistance(d.geo_location, location)
             }))
             d.sort((a, b) => a.distance - b.distance)
             setData(d)
