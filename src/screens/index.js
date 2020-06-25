@@ -10,6 +10,7 @@ import Splash from './Splash';
 import Home from './Home';
 import Profile from './Profile';
 import SignIn from './SignIn';
+import QRpage from './QRpage';
 import { loginUser } from '../state/actions';
 import { useRoute } from '@react-navigation/native';
 const Stack = createStackNavigator();
@@ -50,6 +51,12 @@ const CustomContent = props => {
             onPress={() => navigation.navigate("Profile")}
             active={route.name === 'Profile'}
             />
+            <PaperDrawer.Item 
+            icon="face-profile"
+            label="QRpage"
+            onPress={() => navigation.navigate("QRpage")}
+            active={route.name === 'QRpage'}
+            />
         </DrawerContentScrollView>
     )
 }
@@ -68,6 +75,9 @@ const HomeNavigation = props => {
             <Drawer.Screen 
             name="Profile" 
             component={Profile}/>
+            <Drawer.Screen 
+            name="QRpage" 
+            component={QRpage}/>
         </Drawer.Navigator>
     )
 }
