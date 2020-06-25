@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import React, {useState, useEffect} from 'react'
 import { View, Text, Image } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
@@ -69,6 +67,7 @@ const FinDrawer = connect(({user}) => ({user}))(CustomContent)
 const ParkingNavigation = props => {
     return (
         <Stack.Navigator
+            initialRouteName="Book"
             screenOptions={{
                 headerShown: false
             }}

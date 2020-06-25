@@ -13,15 +13,17 @@ import { primary } from '../constants'
 import Home from '../screens/Home'
 
 
-export default ParkingInfo = ({ navigation }) => {
+export default ParkingInfo = ({ navigation, route }) => {
 
     StatusBar.setBackgroundColor('transparent')
     StatusBar.setBarStyle("light-content")
 
+    const data = route.params
+
     return (
         <View style={ styles.container }>
             <Image 
-                source={{uri: 'https://images.unsplash.com/photo-1524214786335-66456317bde6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'}}
+                source={{uri: data.thumbnail}}
                 style={ styles.thumbnails }
             />
             <IconButton
@@ -33,7 +35,7 @@ export default ParkingInfo = ({ navigation }) => {
             />
             <View style={ styles.locationDetails }>
                 <Text style={ styles.locationName }>
-                    Location Name
+                    {data.loc_name}
                 </Text>
                 <Text style={styles.description}>
                     gysgkd fkbaj bmbm bfjsd mfhmdgfh dmhfhm sgjhfghmd ghfg shj gjf gshdgfjsgdjf ghjsgjf gjhsg dfg u4t w yru3 ty7r y83y783y8u93
@@ -42,11 +44,11 @@ export default ParkingInfo = ({ navigation }) => {
                     <Text 
                         style={styles.durationText}
                     >Opening Time: </Text>  
-                    <Text style={ { marginBottom: 10 }, styles.timeText }>23:00:56</Text>
+                    <Text style={ { marginBottom: 10 }, styles.timeText }>{data.open_time}</Text>
                     <Text 
                         style={styles.durationText}
                     >Closing Time: </Text>  
-                    <Text style={ styles.timeText }>12:00:34</Text>
+                    <Text style={ styles.timeText }>{data.close_time}</Text>
                 </View>
             </View>
             <FAB
