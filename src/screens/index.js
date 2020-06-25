@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import auth from '@react-native-firebase/auth'
 import Splash from './Splash';
 import Home from './Home';
+import Profile from './Profile';
 import SignIn from './SignIn';
 import { loginUser } from '../state/actions';
 import { useRoute } from '@react-navigation/native';
@@ -50,6 +51,7 @@ const CustomContent = props => {
             <PaperDrawer.Item 
             icon="face-profile"
             label="Profile"
+            onPress={() => navigation.navigate("Profile")}
             active={route.name === 'Profile'}
             />
             <PaperDrawer.Item 
@@ -76,6 +78,11 @@ const HomeNavigation = props => {
             <Drawer.Screen 
             name="Book" 
             component={ParkingInfo}/>
+      
+            <Drawer.Screen 
+            name="Profile" 
+            component={Profile}/>
+
         </Drawer.Navigator>
     )
 }
