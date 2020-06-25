@@ -33,6 +33,10 @@ const CarouselItem = props => {
                     borderRadius: 4,
                 }}>
                     <Text>{props.loc_name}</Text>
+                    <Text>
+                        {props.distance < 1000 ? (props.distance).toFixed(0) : (props.distance/1000).toFixed(2)}
+                        {props.distance < 1000 ? ' m' : ' km'}
+                    </Text>
                 </View>
             </View>
         </TouchableNativeFeedback>
