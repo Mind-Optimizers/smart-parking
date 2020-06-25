@@ -37,11 +37,11 @@ export async function addSlots(location_id, slotArray) {
     firestore().collection(`parking_spaces/${location_id}/slots`).add({...slotArray})
 }
 
-getSlots('Ogf9P2p73QzSqq5HA0Xx')
+// getSlots('Ogf9P2p73QzSqq5HA0Xx')
 
-getParkingSpaces()
+// getParkingSpaces()
 
-addParkingSpaces(parking_spaces)
+// addParkingSpaces(parking_spaces)
 
-addSlots(location_id, slotArray)
+// addSlots(location_id, slotArray)
 
