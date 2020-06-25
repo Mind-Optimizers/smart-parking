@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
 import React, {useState, useEffect} from 'react'
 import { View, Text, Image } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,7 +10,6 @@ import { connect } from 'react-redux';
 import auth from '@react-native-firebase/auth'
 import Splash from './Splash';
 import Home from './Home';
-import Profile from './Profile';
 import SignIn from './SignIn';
 import { loginUser } from '../state/actions';
 import { useRoute } from '@react-navigation/native';
@@ -51,7 +52,6 @@ const CustomContent = props => {
             <PaperDrawer.Item 
             icon="face-profile"
             label="Profile"
-            onPress={() => navigation.navigate("Profile")}
             active={route.name === 'Profile'}
             />
             <PaperDrawer.Item 
@@ -66,6 +66,18 @@ const CustomContent = props => {
 
 const FinDrawer = connect(({user}) => ({user}))(CustomContent)
 
+const ParkingNavigation = props => {
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+            <Stack.Screen name="Book" component={ParkingInfo} />
+        </Stack.Navigator>
+    )
+}
+
 const HomeNavigation = props => {
     return (
         <Drawer.Navigator
@@ -76,13 +88,8 @@ const HomeNavigation = props => {
             name="Home" 
             component={Home}/>
             <Drawer.Screen 
-            name="Book" 
-            component={ParkingInfo}/>
-      
-            <Drawer.Screen 
-            name="Profile" 
-            component={Profile}/>
-
+            name="ParkingNavigation" 
+            component={ParkingNavigation}/>
         </Drawer.Navigator>
     )
 }

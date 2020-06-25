@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
+import { primary } from '../constants'
 
 export const ParkingInfoStyles = StyleSheet.create({
     thumbnails: {
@@ -22,66 +23,59 @@ export const ParkingInfoStyles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         width: '100%',
-        height: 600
+        height: '60%',
+        marginTop: -60
     },
     description: {
         width: '100%',
         textAlign: 'left',
         height: 100,
         fontSize: 20,
-        margin: 20
+        marginHorizontal: 20
     },
     locationName: {
         textAlign: 'left',
-        marginLeft: 20,
-        marginTop: 20,
+        marginHorizontal: 20,
         fontSize: 40,
-        fontWeight: '600'
+        fontWeight: '700',
+        marginBottom: 10
     },
     locationAddress: {
         textAlign: 'left',
-        marginLeft: 20,
+        marginHorizontal: 20,
         marginTop: 20,
         fontSize: 40,
+        fontWeight: '500'
     },
     durationText: {
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'center',
         fontWeight: '500',
         width: '100%',
-        height: 40
+        fontSize: 20,
+        fontWeight: '500'
     },
     timeText: {
         fontSize: 16,
         fontWeight: '400'
     },
-    bookBtnText: {
-        fontSize: 20,
-        marginLeft: 30
-    },
     timeContainer: {
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'center',
         width: '100%',
         height: 200,
         margin: 20
     },
     bookBtn: {
-        display: 'none',
+        position: 'absolute',
         fontSize: 20,
-        borderRadius: 6,
         padding: 4,
-        left: '80%',
-        top: '70%',
+        left: '52%',
+        top: '86%',
         position: 'absolute',
         color: '#000',
-        zIndex: 21
+        zIndex: 21,
+        backgroundColor: primary
     },
     backBtn: {
         position: 'absolute',
-        left: 20,
-        top: 60
+        top: 2,
+        left: 2
     }
 })
