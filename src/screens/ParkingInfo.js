@@ -4,7 +4,7 @@ import { View, Image, StatusBar, Text } from 'react-native'
 //styles
 import { ParkingInfoStyles as styles } from '../styles/ParkingInfoStyles'
 import { IconButton, FAB } from 'react-native-paper'
-import { primary } from '../constants'
+import { primary, textLight } from '../constants'
 
 
 // fetch location data
@@ -38,8 +38,14 @@ export default ParkingInfo = ({ navigation, route }) => {
                     {data.loc_name}
                 </Text>
                 <Text style={styles.description}>
-                    gysgkd fkbaj bmbm bfjsd mfhmdgfh dmhfhm sgjhfghmd ghfg shj gjf gshdgfjsgdjf ghjsgjf gjhsg dfg u4t w yru3 ty7r y83y783y8u93
+                   {data.description}
                 </Text>
+                <Text style={{
+                    marginHorizontal: 20,
+                    color: textLight,
+                    fontSize: 20,
+                    marginTop: 20,
+                }}>Slots Available: {data.total_slots - data.slots_occupied}</Text>
                 <View style={styles.timeContainer}>
                     <Text 
                         style={styles.durationText}

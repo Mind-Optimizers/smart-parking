@@ -10,6 +10,7 @@ import RNLocation from 'react-native-location';
 
 const Home = props => {
 
+    const [idata, setIData] = useState([])
     const [data, setData] = useState([])
     const initalRegion = {
         latitude: 19.030486,
@@ -41,6 +42,17 @@ const Home = props => {
         }
     }
 
+    const onChangeSearch = text => {
+        setText(text)
+        if (text) {
+            setData(idata.filter(d => {
+                return d.loc_name.toLowerCase().includes(text.toLowerCase())
+            }))
+        } else {
+            setData(idata)
+        }
+    }
+
     useEffect(() => {
         requestPermission()
     }, [])
@@ -49,6 +61,7 @@ const Home = props => {
         (async () => {
             const d = await getParkingSpaces()
             setData(d)
+            setIData(d)
         })()
     }, [])
 
@@ -81,7 +94,7 @@ const Home = props => {
             initialRegion={initalRegion}
             region={location}
             style={{flex: 1}}>
-                {data.map((d,i) => ( <Marker
+                {idata.map((d,i) => ( <Marker
                 key={i}
                 onPress={() => carouselRef.current.snapToItem(i)}
                 pinColor={getRandomPinColor()}
@@ -107,11 +120,14 @@ const Home = props => {
                     width: '100%',
                     color: '#000'
                 }}
-                onChangeText={text => setText(text)} 
+                onChangeText={text => onChangeSearch(text)} 
                 placeholder="Search Parking Zones"/>
             </View>
            <CustomCarousel
            inputRef={carouselRef}
+           onItemPress={(index) => {
+               props.navigation.navigate('Book', data[index])
+           }}
            changeLocation={changeLocation}
            data={data} />
             

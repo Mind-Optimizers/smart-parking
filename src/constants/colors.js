@@ -5,6 +5,7 @@ export const primaryDark = '#0400ba'
 export const red = '#e74c3c'
 export const turqoise = '#1abc9c'
 export const accent = '#f1c40f'
+export const textLight = '#4d4d4d'
 
 export const theme = {
     ...DefaultTheme,

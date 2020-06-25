@@ -9,10 +9,12 @@ import auth from '@react-native-firebase/auth'
 import Splash from './Splash';
 import Home from './Home';
 import SignIn from './SignIn';
-import { loginUser } from '../state/actions';
+import { loginUser, logoutUser } from '../state/actions';
 import { useRoute } from '@react-navigation/native';
 
 import ParkingInfo from '../screens/ParkingInfo'
+import ConfirmationDialog from '../components/ConfirmationDialog';
+import Profile from './Profile';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -21,9 +23,32 @@ const Drawer = createDrawerNavigator();
 const CustomContent = props => {
     const route = useRoute();
     const {user, navigation} = props;
+    const [logoutDialog, setLogoutDialog] = useState(false)
     return (
         <DrawerContentScrollView {...props}>
+
+            <ConfirmationDialog 
+            visible={logoutDialog}
+            title="Logout"
+            body="Do you want to logout?"
+            positiveText="YES"
+            negativeText="CANCEL"
+            onAccept={async () => {
+                setLogoutDialog(false)
+                await auth().signOut()
+                props.logoutUser()
+                console.log('Accept')
+            }}
+            onCancel={()=> {
+                setLogoutDialog(false)
+            }}
+            onDismiss={() => {
+                setLogoutDialog(false)
+            }}
+            />
+
             <View style={{
+                
                 paddingVertical: 10,
                 paddingHorizontal: 20,
                 flexDirection: 'row',
@@ -45,33 +70,38 @@ const CustomContent = props => {
             <PaperDrawer.Item 
             icon="home"
             label="Home"
+            onPress={() => navigation.navigate('HomeStackNaivgator')}
             active={route.name === 'Home'}
             />
             <PaperDrawer.Item 
             icon="face-profile"
             label="Profile"
+            onPress={() => navigation.navigate('Profile')}
             active={route.name === 'Profile'}
             />
             <PaperDrawer.Item 
-            icon="face-profile"
-            label="Book"
-            active={route.name === 'Book'}
-            onPress={() => navigation.navigate('Book')}
+            icon="logout"
+            label="Logout"
+            onPress={() => setLogoutDialog(true)}
             />
         </DrawerContentScrollView>
     )
 }
 
-const FinDrawer = connect(({user}) => ({user}))(CustomContent)
+const FinDrawer = connect(({user}) => ({user}), {logoutUser})(CustomContent)
 
-const ParkingNavigation = props => {
+const HomeStackNaivgator = props => {
     return (
         <Stack.Navigator
-            initialRouteName="Book"
+            initialRouteName="Home"
             screenOptions={{
                 headerShown: false
             }}
         >
+            
+            <Stack.Screen 
+            name="Home" 
+            component={Home}/>
             <Stack.Screen name="Book" component={ParkingInfo} />
         </Stack.Navigator>
     )
@@ -84,11 +114,12 @@ const HomeNavigation = props => {
         >
 
             <Drawer.Screen 
-            name="Home" 
-            component={Home}/>
+            name="HomeStackNavigator" 
+            component={HomeStackNaivgator}/>
+
             <Drawer.Screen 
-            name="ParkingNavigation" 
-            component={ParkingNavigation}/>
+            name="Profile" 
+            component={Profile}/>
         </Drawer.Navigator>
     )
 }

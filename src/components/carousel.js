@@ -44,7 +44,7 @@ const CustomCarousel = props => {
     const navigation = useNavigation()
     
     const onItemPress = index => {
-        navigation.navigate('Book', {...props.data[index]})
+        navigation.navigate('Book', )
     }
 
 
@@ -66,7 +66,7 @@ const CustomCarousel = props => {
             sliderWidth={Dimensions.get('window').width}
             renderItem={({item, index}) => <CarouselItem
             {...item}
-            onPress={() => onItemPress(index)}
+            onPress={() => props.onItemPress(index)}
             />}
             />
         </View>
