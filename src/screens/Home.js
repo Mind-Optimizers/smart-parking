@@ -1,25 +1,68 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { View, StyleSheet, StatusBar, Dimensions, TextInput } from 'react-native'
 import { Text, Appbar, IconButton } from 'react-native-paper'
-import { primary } from '../constants'
-import MapView from 'react-native-maps'
+import { primary, getRandomPinColor } from '../constants'
+import MapView, {Marker} from 'react-native-maps'
 import CustomCarousel from '../components/carousel'
+import { getParkingSpaces } from '../backend/FetchLocations'
+import RNLocation from 'react-native-location';
 
 
 const Home = props => {
-    const data = [{
-        uri:'https://www.ipohalarm.com.my/onbiz/userhome/37/files/parking_lock2.jpg',
-        name:'BARC Parking Zone',
-    },
-    {
-        uri:'https://images.unsplash.com/photo-1524214786335-66456317bde6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
-        name:'Jewel of NaviMumbai Parking Zone',
-    },
-    {
-        uri:'https://ae01.alicdn.com/kf/HTB1y3aeIVXXXXbDapXXq6xXFXXXM/Automatic-Remote-Control-Car-Parking-Space-Barrier-Manual-Road-Block-Alarm-System-with-Rechargeable-lead-acid.jpg',
-        name:'Thakurli Paking Zone',
-    },
-]
+
+    const [data, setData] = useState([])
+    const initalRegion = {
+        latitude: 19.030486,
+        longitude: 73.01235,
+        longitudeDelta: 0.009,
+        latitudeDelta: 0.009,
+    }
+
+    const mapRef = useRef(null)
+
+    const [location, setLocation] = useState(initalRegion)
+    let locationSubscriber = null;
+    const requestPermission = async () => {
+        const granted = await RNLocation.requestPermission({
+            android: {
+                detail: 'fine'
+            }
+        })
+
+        if (granted) {
+            locationSubscriber = RNLocation.subscribeToLocationUpdates(loc => {
+                setLocation({
+                    ...location,
+                    longitude: loc[0].longitude,
+                    latitude: loc[0].latitude,
+                })
+                console.log(loc)
+            })
+        }
+    }
+
+    useEffect(() => {
+        requestPermission()
+    }, [])
+
+    useEffect(() => {
+        (async () => {
+            const d = await getParkingSpaces()
+            setData(d)
+        })()
+    }, [])
+
+    const changeLocation = (coords) => {
+        mapRef.current.animateToRegion({
+            longitudeDelta: 0.003,
+            latitudeDelta: 0.003,
+            longitude: coords._longitude,
+            latitude: coords._latitude,
+        }, 2000)
+    }
+
+    const carouselRef = useRef(null)
+
     StatusBar.setTranslucent(true)
     StatusBar.setBackgroundColor('transparent')
     StatusBar.setBarStyle("dark-content")
@@ -29,9 +72,25 @@ const Home = props => {
 
     const [text, setText] = useState(null)
 
+
     return (
         <View style={styles.container}>
-             <MapView style={{flex: 1}}/>
+            <MapView 
+            ref={mapRef}
+            showsCompass={false}
+            initialRegion={initalRegion}
+            region={location}
+            style={{flex: 1}}>
+                {data.map((d,i) => ( <Marker
+                key={i}
+                onPress={() => carouselRef.current.snapToItem(i)}
+                pinColor={getRandomPinColor()}
+                coordinate={{
+                    longitude: d.geo_location._longitude,
+                    latitude: d.geo_location._latitude
+                }}
+                />))}
+            </MapView>
             <View style={styles.searchBar}>
                 
                 <IconButton 
@@ -51,7 +110,10 @@ const Home = props => {
                 onChangeText={text => setText(text)} 
                 placeholder="Search Parking Zones"/>
             </View>
-           <CustomCarousel data={data} />
+           <CustomCarousel
+           inputRef={carouselRef}
+           changeLocation={changeLocation}
+           data={data} />
             
         </View>
         
@@ -72,7 +134,7 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius: 6,
         backgroundColor: "#FFF",
-        top: 70,
+        top: 40,
         width: Dimensions.get('window').width - 30,
         elevation: 4,
         padding: 10,
