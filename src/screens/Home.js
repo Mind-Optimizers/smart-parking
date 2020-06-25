@@ -67,8 +67,6 @@ const Home = props => {
             distance: getDistance(d.geo_location, location)
             }))
             d.sort((a, b) => a.distance - b.distance)
-            console.log(d)
-
             setData(d)
             setIData(d)
         })()
