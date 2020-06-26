@@ -15,6 +15,9 @@ import BottomSheet from '../components/BottomSheet'
 import { lockSlot, generateSlot } from '../backend/ticket'
 import ConfirmationDialog from '../components/ConfirmationDialog'
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/AntDesign';
+import FontIcon from 'react-native-vector-icons/FontAwesome5';
+
 
 const ParkingInfo = ({ navigation, route, user }) => {
 
@@ -61,25 +64,21 @@ const ParkingInfo = ({ navigation, route, user }) => {
                 <Text style={ styles.locationName }>
                     {data.loc_name}
                 </Text>
+                <View  >
+                    <View style={styles.parking} >
+                        <FontIcon name="parking" size={20} color={primary} style={styles.icon}/>
+                        <Text style={styles.slots} >{data.total_slots - data.slots_occupied} slots left</Text>
+                    </View>
+                    <View style={styles.timeContainer}>
+                        <Icon name="clockcircleo" size={20} color={primary} style={styles.durationText}/>
+                        <Text style={styles.timeText}>{data.open_time} - {data.close_time}</Text>
+                    </View>
+                </View>
+                
+                <Text style={styles.des}>Description</Text>
                 <Text style={styles.description}>
                    {data.description}
                 </Text>
-                <Text style={{
-                    marginHorizontal: 20,
-                    color: textLight,
-                    fontSize: 20,
-                    marginTop: 20,
-                }}>Slots Available: {data.total_slots - data.slots_occupied}</Text>
-                <View style={styles.timeContainer}>
-                    <Text 
-                        style={styles.durationText}
-                    >Opening Time: </Text>  
-                    <Text style={ { marginBottom: 10 }, styles.timeText }>{data.open_time}</Text>
-                    <Text 
-                        style={styles.durationText}
-                    >Closing Time: </Text>  
-                    <Text style={ styles.timeText }>{data.close_time}</Text>
-                </View>
             </View>
             <FAB
                 backgroundColor={primary}

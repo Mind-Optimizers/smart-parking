@@ -141,7 +141,7 @@ const Home = props => {
                     onPress={() => {
                         navigation.openDrawer()
                     }}
-                    color="#5d5d5d"
+                    color={primary}
                     />
 
                     <TextInput 
