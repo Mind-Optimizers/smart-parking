@@ -205,7 +205,6 @@ const Home = props => {
                 </View>}
             </View>
             <View>
-                
             </View>
            <CustomCarousel
            inputRef={carouselRef}
@@ -233,7 +232,10 @@ const styles = StyleSheet.create({
         
         height: 40,
         borderRadius: 6,
+        
+        borderColor:primary,
         backgroundColor: "#FFF",
+        top: 50,
         width: Dimensions.get('window').width - 30,
         elevation: 4,
         padding: 10,

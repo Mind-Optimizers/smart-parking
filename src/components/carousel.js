@@ -10,30 +10,36 @@ const CarouselItem = props => {
     return(
         <TouchableNativeFeedback onPress={props.onPress}>
             <View style={{
-                width:230,
+                width:300,
                 height:250,
                 marginBottom: 20,
+                borderRadius:10,
             }}>
                 <Image 
                 style={{
                     width: '100%',
                     height: 200,
-                    
-                    borderTopLeftRadius: 4,
-                    borderTopRightRadius: 4,
+                    borderTopLeftRadius: 10,
+                    borderRadius: 10,
+                   
                 }}
                 source={{uri:props.thumbnail}} />
                 <View style={{
                     width: '100%',
-                    height: 50,
+                    height: 60,
                     elevation: 4,
                     backgroundColor: '#fff',
-                    paddingTop: 10,
-                    paddingLeft: 8,
-                    borderRadius: 4,
+                    paddingTop: 7,
+                    paddingLeft: 9,
+                    borderRadius:10,
+                    
+                    
+                    marginTop:5,
+
+                    borderColor:primary,
                 }}>
-                    <Text>{props.loc_name}</Text>
-                    <Text>
+                    <Text style={{fontSize:19 ,fontWeight:"bold"}}>{props.loc_name}</Text>
+                    <Text style={{color:primary,fontWeight:"bold"}}>
                         {props.distance < 1000 ? (props.distance).toFixed(0) : (props.distance/1000).toFixed(2)}
                         {props.distance < 1000 ? ' m' : ' km'}
                     </Text>
@@ -65,7 +71,7 @@ const CustomCarousel = props => {
             onSnapToItem={(i) => props.changeLocation(props.data[i].geo_location)}
             data={props.data} 
             itemHeight={200}
-            itemWidth={230}
+            itemWidth={300}
             
             sliderWidth={Dimensions.get('window').width}
             renderItem={({item, index}) => <CarouselItem
