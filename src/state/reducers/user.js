@@ -3,7 +3,9 @@ import { DEF_USER_STATE, USER_LOGIN, USER_LOGOUT } from "../../constants";
 export default (state=DEF_USER_STATE, action) => {
     switch (action.type) {
         case USER_LOGIN:
+            console.log('AAAA')
             return {
+                ...state,
                 ...action.user
             }
         case USER_LOGOUT:

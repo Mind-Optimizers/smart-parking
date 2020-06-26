@@ -11,10 +11,12 @@ import Home from './Home';
 import SignIn from './SignIn';
 import { loginUser, logoutUser } from '../state/actions';
 import { useRoute } from '@react-navigation/native';
-
+import firestore from '@react-native-firebase/firestore';
 import ParkingInfo from '../screens/ParkingInfo'
 import ConfirmationDialog from '../components/ConfirmationDialog';
 import Profile from './Profile';
+import QRpage from './QRpage';
+import { setCurrentParking, removeCurrentParking } from '../state/actions/current';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -102,7 +104,13 @@ const HomeStackNaivgator = props => {
             <Stack.Screen 
             name="Home" 
             component={Home}/>
-            <Stack.Screen name="Book" component={ParkingInfo} />
+            <Stack.Screen 
+            name="Book" 
+            component={ParkingInfo} />
+            <Stack.Screen 
+            name="QRPage"
+            component={QRpage}
+            />
         </Stack.Navigator>
     )
 }
@@ -138,6 +146,19 @@ const AppNavigator = props => {
                     dp: user.photoURL
                 })
                 console.log(props.user)
+
+                firestore().collection('users').doc(user.uid).onSnapshot((snap) => {
+                    const userData = snap.data()
+                    if (userData.current) {
+                        props.setCurrentParking(userData.current)
+                        console.log(userData.current)
+                        
+                    } else {
+                        if (props.currentParking) {
+                            props.removeCurrentParking()
+                        }
+                    }
+                })
             }
             if (loading) setLoading(false)
         })
@@ -169,6 +190,6 @@ const AppNavigator = props => {
     ) 
 }
 
-const mapStateToProps = ({user}) => ({user})
+const mapStateToProps = ({user, currentParking}) => ({user, currentParking})
 
-export default connect(mapStateToProps, {loginUser})(AppNavigator)
+export default connect(mapStateToProps, {loginUser, removeCurrentParking, setCurrentParking})(AppNavigator)

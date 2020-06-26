@@ -2,15 +2,20 @@
 import React, { Component } from 'react'
 import { primary } from '../constants'
 import {connect} from 'react-redux'
-import { StyleSheet, View, Image, StatusBar, TouchableOpacity, } from 'react-native'
-import {Text, Button} from 'react-native-paper'
+import { StyleSheet, View, Image, StatusBar, TouchableOpacity, Linking, Platform} from 'react-native'
+import {Text, Button, IconButton} from 'react-native-paper'
+import QRCode from 'react-native-qrcode-svg';
+import { navigateMaps } from '../utils'
 
 
 
- class QRpage extends Component {
+class QRpage extends Component {
    
 
     render() {
+
+        const {navigation, route} = this.props;
+
         StatusBar.setTranslucent(true)
         StatusBar.setBackgroundColor('transparent')
         StatusBar.setBarStyle("dark-content")
@@ -18,14 +23,33 @@ import {Text, Button} from 'react-native-paper'
       return (
         <View style={styles.container}>
             <View><Text style={styles.header}>Scan this QR-code</Text></View>
-            <Image style={styles.qr} source={{uri:'https://cdn.crunchify.com/wp-content/uploads/2013/01/CrunchifyQR-Tutorial.png'}}/>
+              <IconButton 
+              icon="chevron-left"
+              size={40}
+              onPress={() => navigation.navigate('Home')}
+              color={primary}
+              style={{
+                position: 'absolute',
+                top: 25,
+                left: 5,
+              }}
+              />
+              <QRCode 
+              style={styles.qr}
+              size={210}
+              value={route.params.ticket}
+              />
+            
             <View style={styles.body}>
                 <View style={styles.bodyContent}>
-                    <Text style={styles.slotno}>A-25</Text>
-                <View style={{width:'70%'}}><Text style={styles.textinfo}>Use this QR-code to open the gate of your parking slot</Text></View>
+                <Text style={styles.slotno}>{route.params.name}</Text>
+                <View style={{width:'70%'}}><Text style={styles.textinfo}>Use this QR-code to toggle the gate of your parking slot</Text></View>
                            
               </View>
-              <Button mode='contained' style={styles.btn}>Save to Device</Button>
+              <Button mode='contained' 
+              icon="navigation"
+              style={styles.btn} 
+              onPress={() => navigateMaps(route.params.geo._latitude, route.params.geo._longitude)}>Navigate</Button>
           </View>
           
         </View>
@@ -36,6 +60,7 @@ import {Text, Button} from 'react-native-paper'
   const styles = StyleSheet.create({
     container:{
         justifyContent:"center",
+        alignItems: 'center',
         flex:1,
     },
     header:{
@@ -45,8 +70,6 @@ import {Text, Button} from 'react-native-paper'
         marginBottom:30,
     },
     qr:{
-      width: 210,
-      height: 210,
       padding:10,
       borderWidth: 4,
       borderColor: primary,
@@ -55,10 +78,11 @@ import {Text, Button} from 'react-native-paper'
     slotno:{
       fontSize:40,
       color:primary,
+      marginTop: 20,
       alignSelf:'center'
     },
     textinfo:{
-        marginTop:20,
+        marginVertical:20,
         textAlign:"center",
         fontSize:17,
     },
@@ -67,9 +91,6 @@ import {Text, Button} from 'react-native-paper'
         width:170,
         alignSelf:"center",
         borderRadius:25,
-    },
-    body:{
-      marginTop:20,
     },
     bodyContent: {
       alignItems: 'center',

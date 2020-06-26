@@ -24,7 +24,6 @@ export const ParkingInfoStyles = StyleSheet.create({
     },
     description: {
         textAlign: 'left',
-        
         fontSize: 20,
         marginHorizontal: 20,
         color: textLight,

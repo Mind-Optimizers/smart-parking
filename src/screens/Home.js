@@ -1,14 +1,15 @@
 import React, {useState, useEffect, useRef} from 'react'
 import { View, StyleSheet, StatusBar, Dimensions, TextInput } from 'react-native'
 import { Text, Appbar, IconButton } from 'react-native-paper'
-import { primary, getRandomPinColor } from '../constants'
+import { primary, getRandomPinColor, turqoise } from '../constants'
 import MapView, {Marker} from 'react-native-maps'
 import CustomCarousel from '../components/carousel'
 import { getParkingSpaces } from '../backend/FetchLocations'
 import RNLocation from 'react-native-location';
 import {getDistance} from '../utils/distance';
 import { ParkingInfoStyles } from '../styles/ParkingInfoStyles'
-
+import { navigateMaps } from '../utils'
+import {connect} from 'react-redux'
 
 const Home = props => {
     const [idata, setIData] = useState([])
@@ -38,7 +39,16 @@ const Home = props => {
                     longitude: loc[0].longitude,
                     latitude: loc[0].latitude,
                 })
-                console.log(loc)
+
+                let d = [...idata];
+                d = d.map(d => ({
+                ...d,
+                distance: getDistance(d.geo_location, location)
+                }))
+                d.sort((a, b) => a.distance - b.distance)
+                setData(d)
+                setIData(d)
+
             })
         }
     }
@@ -78,7 +88,7 @@ const Home = props => {
             latitudeDelta: 0.003,
             longitude: coords._longitude,
             latitude: coords._latitude,
-        }, 2000)
+        }, 1000)
     }
 
     const carouselRef = useRef(null)
@@ -91,7 +101,7 @@ const Home = props => {
     const {navigation} = props;
 
     const [text, setText] = useState(null)
-
+    console.log('Currenbt', props.currentParking)
 
     return (
         <View style={styles.container}>
@@ -101,6 +111,12 @@ const Home = props => {
             initialRegion={initalRegion}
             region={location}
             style={{flex: 1}}>
+                <Marker 
+                coordinate={{
+                    longitude: location.longitude,
+                    latitude: location.latitude,
+                }}
+                />
                 {idata.map((d,i) => ( <Marker
                 key={i}
                 onPress={() => carouselRef.current.snapToItem(i)}
@@ -111,24 +127,85 @@ const Home = props => {
                 }}
                 />))}
             </MapView>
-            <View style={styles.searchBar}>
-                
-                <IconButton 
-                icon="menu"
-                onPress={() => {
-                    navigation.openDrawer()
-                }}
-                color="#5d5d5d"
-                />
+            <View style={{
+                position: 'absolute',
+                top: 40,
+            }}>
+                <View style={styles.searchBar}>
+                    
+                    <IconButton 
+                    icon="menu"
+                    onPress={() => {
+                        navigation.openDrawer()
+                    }}
+                    color="#5d5d5d"
+                    />
 
-                <TextInput 
-                style={{
-                    height: 40,
-                    width: '100%',
-                    color: '#000'
-                }}
-                onChangeText={text => onChangeSearch(text)} 
-                placeholder="Search Parking Zones"/>
+                    <TextInput 
+                    style={{
+                        height: 40,
+                        width: '100%',
+                        color: '#000'
+                    }}
+                    onChangeText={text => onChangeSearch(text)} 
+                    placeholder="Search Parking Zones"/>
+                </View>
+                {props.currentParking.location && <View style={{
+                    backgroundColor: primary,
+                    height: 70,
+                    borderRadius: 4,
+                    width: Dimensions.get('window').width - 30,
+                    marginHorizontal: 15,
+                    marginVertical: 20,
+                    elevation: 6,
+                    flexDirection: 'row',
+                }}>
+                    <View style={{
+                        borderRightWidth: 1,
+                        width: 60,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRightColor: '#4d4d4d',
+                        
+                    }}>
+                        <Text style={{
+                            color: '#fff',
+                            fontSize: 20
+                        }}>{(getDistance(props.currentParking.location_geo_location, location) / 1000).toFixed(2)}</Text>
+                        <Text style={{
+                            color: '#fff',
+                            fontSize: 10,
+                        }}>KM</Text>
+                    </View>
+                    <View style={{
+                        flex: 1,
+                        paddingVertical: 5, 
+                        justifyContent: 'center',
+                        paddingHorizontal: 10}}>
+                        <Text style={{color: '#fff', fontSize: 12}}>
+                            Current Booking
+                        </Text>
+                        <Text style={{color: '#fff', fontWeight: 'bold'}}>
+                            {props.currentParking.location_name}
+                        </Text>
+                    </View>
+                    <View style={{
+                        borderLeftWidth: 0.2,
+                        width: 50,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderLeftColor: '#4d4d4d',
+                    }}>
+                        <IconButton 
+                        onPress={() => navigateMaps(props.currentParking.location_geo_location.latitude, props.currentParking.location_geo_location.longitude)}
+                        icon="navigation"
+                        color="#fff"
+                        />
+                    </View>
+                </View>}
+            </View>
+            <View>
+                
             </View>
            <CustomCarousel
            inputRef={carouselRef}
@@ -153,11 +230,10 @@ const styles = StyleSheet.create({
         
     },
     searchBar:{
-        position: "absolute",
+        
         height: 40,
         borderRadius: 6,
         backgroundColor: "#FFF",
-        top: 40,
         width: Dimensions.get('window').width - 30,
         elevation: 4,
         padding: 10,
@@ -167,4 +243,4 @@ const styles = StyleSheet.create({
     }    
 })
 
-export default Home
+export default connect(({user,currentParking}) => ({user, currentParking}))(Home)

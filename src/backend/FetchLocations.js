@@ -9,8 +9,6 @@ export async function getParkingSpaces() {
         id: document.id
     }));
 
-    console.log(parking_spaces)
-
     return parking_spaces
 }
 

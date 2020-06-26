@@ -8,6 +8,7 @@ import { persistor, store } from './state'
 import { PersistGate } from 'redux-persist/integration/react'
 import RNLocation from 'react-native-location'
 
+
 const App = () => {
 	StatusBar.setBackgroundColor(primaryDark)
 

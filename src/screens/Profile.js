@@ -47,6 +47,7 @@ import { StyleSheet, Text, View, Image, StatusBar, TouchableOpacity } from 'reac
       fontSize:22,
       color:"#FFFFFF",
       fontWeight:'600',
+      textAlign: 'center'
     },
     body:{
       marginTop:40,

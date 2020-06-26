@@ -10,14 +10,13 @@ import { primary, textLight } from '../constants'
 // fetch location data
 // import { getParkingSpace } from '../backend/FetchLocations'
 
-import Home from '../screens/Home'
 import LoadingDialog from '../components/LoadingDialog'
 import BottomSheet from '../components/BottomSheet'
-import { lockSlot } from '../backend/ticket'
+import { lockSlot, generateSlot } from '../backend/ticket'
 import ConfirmationDialog from '../components/ConfirmationDialog'
+import { connect } from 'react-redux';
 
-
-export default ParkingInfo = ({ navigation, route }) => {
+const ParkingInfo = ({ navigation, route, user }) => {
 
     StatusBar.setBackgroundColor('transparent')
     StatusBar.setBarStyle("light-content")
@@ -99,10 +98,18 @@ export default ParkingInfo = ({ navigation, route }) => {
                 try {
                     const slotId = await lockSlot(data.id, data.rate)
                     console.log(`${slotId} locked`)
-                    console.log(``)
+                    const {ticket, name} = await generateSlot(data.id, slotId, user.id)
+                    navigation.navigate('QRPage', {
+                        ticket,
+                        name,
+                        geo: data.geo_location
+                    })
                 } catch (error) {
                     console.log(error)
-                    setError(error.message)
+                    if (error && error.message)
+                        setError(error.message)
+                    else
+                        setError('Unexpected error. Please try again later.')
                 }
                 setLoading(false)
             }}
@@ -110,3 +117,5 @@ export default ParkingInfo = ({ navigation, route }) => {
         </View>
     )
 }
+
+export default connect(({user}) => ({user}))(ParkingInfo)

@@ -11,6 +11,7 @@ export const getDistance = function(p1, p2) {
       Math.sin(dLong / 2) * Math.sin(dLong / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const d = R * c;
+    console.log(d)
     return d;
 }
 

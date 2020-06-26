@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
 import user from './user'
-console.log(user)
+import currentParking from './current'
+
 export default combineReducers({
-    user
+    user,
+    currentParking
 })
