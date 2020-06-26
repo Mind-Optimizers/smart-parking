@@ -149,7 +149,7 @@ const AppNavigator = props => {
 
                 firestore().collection('users').doc(user.uid).onSnapshot((snap) => {
                     const userData = snap.data()
-                    if (userData.current) {
+                    if (userData && userData.current) {
                         props.setCurrentParking(userData.current)
                         console.log(userData.current)
                         
