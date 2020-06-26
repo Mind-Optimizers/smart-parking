@@ -22,18 +22,43 @@ export const ParkingInfoStyles = StyleSheet.create({
         marginTop: 40,
         width: '100%',
     },
+    parking:{
+        height:50,
+        width:'50%'
+    
+    },
+    icon:{
+        padding:15,
+        marginLeft:'15%',
+        fontFamily:'bold',
+    },
+    slots:{
+        position:"absolute",
+        marginLeft:'35%',
+        marginTop:15,
+        color:primary,
+        fontSize:17,
+        fontFamily:'bold',
+    },
+    des:{
+        fontFamily:'bold',
+        marginHorizontal:20,
+        marginTop:'9%',
+        fontSize: 19,
+    },
     description: {
-        textAlign: 'left',
-        fontSize: 20,
-        marginHorizontal: 20,
+        textAlign: 'justify',
+        fontSize: 17,
+        marginHorizontal:20,
         color: textLight,
     },
     locationName: {
         textAlign: 'left',
-        marginHorizontal: 20,
+        paddingLeft:20,
+        paddingVertical:10,
         fontSize: 40,
         fontWeight: '700',
-        marginBottom: 10
+        marginBottom: 15,
     },
     locationAddress: {
         textAlign: 'left',
@@ -43,24 +68,31 @@ export const ParkingInfoStyles = StyleSheet.create({
         fontWeight: '500',
         color: textLight,
     },
+    both:{
+        flex: 1,
+        flexDirection: 'row',
+    },
     durationText: {
-        fontWeight: '500',
-        width: '100%',
-        fontSize: 20,
-        fontWeight: '500',
-        color: textLight,
+        margin:15,
+        color: primary,
+        fontFamily:'bold',
     },
     timeText: {
-        fontSize: 16,
-        fontWeight: '400',
-        color: textLight,
+        position:"absolute",
+        fontFamily:'bold',
+        margin:15,
+        alignSelf:"center",
+        color:primary,
+        paddingLeft:7
     },
     timeContainer: {
-        width: '100%',
-        height: 200,
-        margin: 20,
+        position:"absolute",
+        width:'50%',
+        left:'50%',
+        textAlign:"center",
         color: textLight,
     },
+
     bookBtn: {
         position: 'absolute',
         fontSize: 20,
@@ -70,7 +102,7 @@ export const ParkingInfoStyles = StyleSheet.create({
         position: 'absolute',
         color: '#000',
         zIndex: 21,
-        backgroundColor: primary
+        backgroundColor: primary,
     },
     backBtn: {
         position: 'absolute',
