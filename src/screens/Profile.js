@@ -2,8 +2,8 @@
 import React, { Component } from 'react'
 import { primary } from '../constants'
 import {connect} from 'react-redux'
-import { StyleSheet, Text, View, Image, StatusBar, TouchableOpacity } from 'react-native'
-
+import { StyleSheet, View, Image, StatusBar, TouchableOpacity } from 'react-native'
+import { Text } from 'react-native-paper';
 
 
  class Profile extends Component {
@@ -46,21 +46,22 @@ import { StyleSheet, Text, View, Image, StatusBar, TouchableOpacity } from 'reac
     name:{
       fontSize:22,
       color:"#FFFFFF",
-      fontWeight:'600',
+      fontFamily:'bold',
       textAlign: 'center'
     },
     body:{
       marginTop:40,
+      flex: 1,
     },
     bodyContent: {
-      flex: 1,
+      
       alignItems: 'center',
       padding:30,
     },
     name:{
-      fontSize:28,
+      fontSize:30,
       color: "#696969",
-      fontWeight: "600"
+      fontFamily: 'bold'
     },
 
     buttonContainer: {

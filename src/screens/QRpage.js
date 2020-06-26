@@ -77,6 +77,7 @@ class QRpage extends Component {
     },
     slotno:{
       fontSize:40,
+      fontFamily: 'bold',
       color:primary,
       marginTop: 20,
       alignSelf:'center'

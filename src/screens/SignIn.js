@@ -1,7 +1,7 @@
 import React from 'react'
 import { Surface, Button } from 'react-native-paper'
-import { Text, View, Image, StatusBar } from 'react-native'
-
+import { View, Image, StatusBar } from 'react-native'
+import {Text} from 'react-native-paper'
 //styles
 import { authPageStyles as styles } from '../styles/AuthPageStyles'
 
@@ -29,7 +29,7 @@ const SignIn = (props) => {
                     margin: 20,
                     fontSize: 20,
                     textAlign: 'center',
-                    fontWeight: 'bold',
+                    fontFamily: 'bold',
                 }}>Welcome to a revolutionary way to park your vehicles</Text>
             </View>
             <View style={{

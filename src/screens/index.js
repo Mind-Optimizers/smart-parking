@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, Image } from 'react-native'
+import { View, Image } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator,  DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
-import { Drawer as PaperDrawer } from 'react-native-paper';
+import { Drawer as PaperDrawer, Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 import auth from '@react-native-firebase/auth'
 import Splash from './Splash';

@@ -102,7 +102,10 @@ const Home = props => {
 
     const [text, setText] = useState(null)
     console.log('Currenbt', props.currentParking)
-
+    let distanceToDest
+    if (props.currentParking.location_geo_location) {
+        distanceToDest = (getDistance(props.currentParking.location_geo_location, location) / 1000).toFixed(2)
+    }
     return (
         <View style={styles.container}>
             <MapView 
@@ -129,7 +132,7 @@ const Home = props => {
             </MapView>
             <View style={{
                 position: 'absolute',
-                top: 40,
+                top: 50,
             }}>
                 <View style={styles.searchBar}>
                     
@@ -151,7 +154,7 @@ const Home = props => {
                     placeholder="Search Parking Zones"/>
                 </View>
                 {props.currentParking.location && <View style={{
-                    backgroundColor: primary,
+                    backgroundColor: distanceToDest > 1.5 ? '#e74c3c' : primary,
                     height: 70,
                     borderRadius: 4,
                     width: Dimensions.get('window').width - 30,
@@ -171,7 +174,7 @@ const Home = props => {
                         <Text style={{
                             color: '#fff',
                             fontSize: 20
-                        }}>{(getDistance(props.currentParking.location_geo_location, location) / 1000).toFixed(2)}</Text>
+                        }}>{distanceToDest}</Text>
                         <Text style={{
                             color: '#fff',
                             fontSize: 10,
@@ -185,9 +188,18 @@ const Home = props => {
                         <Text style={{color: '#fff', fontSize: 12}}>
                             Current Booking
                         </Text>
-                        <Text style={{color: '#fff', fontWeight: 'bold'}}>
+                        <Text style={{color: '#fff', fontFamily: 'bold'}}>
                             {props.currentParking.location_name}
                         </Text>
+                    </View>
+                    <View style={{
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <IconButton 
+                        icon="alert-circle-outline"
+                        color="#fff"
+                        />
                     </View>
                     <View style={{
                         borderLeftWidth: 0.2,
@@ -235,7 +247,6 @@ const styles = StyleSheet.create({
         
         borderColor:primary,
         backgroundColor: "#FFF",
-        top: 50,
         width: Dimensions.get('window').width - 30,
         elevation: 4,
         padding: 10,

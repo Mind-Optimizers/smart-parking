@@ -1,6 +1,7 @@
 import React from 'react'
 import Carousel from 'react-native-snap-carousel'
-import { View, StyleSheet, TouchableNativeFeedback, Dimensions, TextInput, SafeAreaView, Image, Text } from 'react-native'
+import { View, StyleSheet, TouchableNativeFeedback, Dimensions, TextInput, SafeAreaView, Image } from 'react-native'
+import { Text } from 'react-native-paper';
 import { primary } from '../constants'
 import { useNavigation } from '@react-navigation/native';
 
@@ -38,8 +39,8 @@ const CarouselItem = props => {
 
                     borderColor:primary,
                 }}>
-                    <Text style={{fontSize:19 ,fontWeight:"bold"}}>{props.loc_name}</Text>
-                    <Text style={{color:primary,fontWeight:"bold"}}>
+                    <Text style={{fontSize:19 ,fontFamily:"bold"}}>{props.loc_name}</Text>
+                    <Text style={{color:primary, fontFamily:"bold"}}>
                         {props.distance < 1000 ? (props.distance).toFixed(0) : (props.distance/1000).toFixed(2)}
                         {props.distance < 1000 ? ' m' : ' km'}
                     </Text>

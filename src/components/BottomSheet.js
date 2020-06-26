@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import RNBottomSheet from 'react-native-raw-bottom-sheet'
-import { RadioButton, Button } from 'react-native-paper'
+import { RadioButton, Button, Text } from 'react-native-paper'
 
 const BottomSheet = props => {
 
@@ -11,18 +11,21 @@ const BottomSheet = props => {
         <View>
             <RNBottomSheet 
             ref={props.innerRef}
-            height={350}
-            openDuration={250}
+            height={320}
+            openDuration={300}
             customStyles={{
                 container: {
                     paddingHorizontal: 30,
                     paddingVertical: 20,
-                    borderRadius: 10
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+
                 }
             }}
             >
                 <Text style={{
                     fontSize: 20,
+                    fontFamily: 'bold',
                     marginBottom: 10
                 }}>Duration</Text>
                 <Text style={{
@@ -79,6 +82,7 @@ const styles = {
         marginBottom: 20,
     },
     btnText: {
+        fontFamily: 'bold',
         width: 300
     },
     btnTextSm: {
