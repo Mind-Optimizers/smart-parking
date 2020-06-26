@@ -22,14 +22,13 @@ export const lockSlot = async (loc_id, price=25.00) => {
         await parkingLoc.ref.update({
             slots_occupied: firestore.FieldValue.increment(1)
         })
-        console.log(slot.id)
         return slot.id
     } else {
         throw new Error('No Slots found.')
     }
 }
 
-export const generateSlot = async (loc_id, slotId, userId) => {
+export const generateSlot = async (loc_id, slotId, userId, intendedDuration) => {
     const slot = await firestore().collection(`parking_spaces/${loc_id}/slots`).doc(slotId)
     const location = (await firestore().collection(`parking_spaces`).doc(loc_id).get()).data()
     const ticket = uuid.v4()
@@ -38,7 +37,8 @@ export const generateSlot = async (loc_id, slotId, userId) => {
     await slot.update({
         ticket,
         assignedTo: userId,
-        assignTime: Date.now()
+        assignTime: Date.now(),
+        intendedDuration
     })
 
     const user = await firestore().collection(`users`).doc(userId)
@@ -59,3 +59,4 @@ export const generateSlot = async (loc_id, slotId, userId) => {
         name: slotDoc.name
     }
 }
+

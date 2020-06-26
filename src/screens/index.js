@@ -39,7 +39,6 @@ const CustomContent = props => {
                 setLogoutDialog(false)
                 await auth().signOut()
                 props.logoutUser()
-                console.log('Accept')
             }}
             onCancel={()=> {
                 setLogoutDialog(false)
@@ -145,13 +144,11 @@ const AppNavigator = props => {
                     email: user.email,
                     dp: user.photoURL
                 })
-                console.log(props.user)
 
                 firestore().collection('users').doc(user.uid).onSnapshot((snap) => {
                     const userData = snap.data()
                     if (userData && userData.current) {
                         props.setCurrentParking(userData.current)
-                        console.log(userData.current)
                         
                     } else {
                         if (props.currentParking) {

@@ -15,8 +15,8 @@ const Home = props => {
     const [idata, setIData] = useState([])
     const [data, setData] = useState([])
     const initalRegion = {
-        latitude: 19.030486,
-        longitude: 73.01235,
+        latitude: 19.038901,
+        longitude: 72.910797,
         longitudeDelta: 0.009,
         latitudeDelta: 0.009,
     }
@@ -55,6 +55,7 @@ const Home = props => {
 
     const onChangeSearch = text => {
         setText(text)
+        carouselRef.current.snapToItem(0)
         if (text) {
             setData(idata.filter(d => {
                 return d.loc_name.toLowerCase().includes(text.toLowerCase())
@@ -101,7 +102,6 @@ const Home = props => {
     const {navigation} = props;
 
     const [text, setText] = useState(null)
-    console.log('Currenbt', props.currentParking)
     let distanceToDest
     if (props.currentParking.location_geo_location) {
         distanceToDest = (getDistance(props.currentParking.location_geo_location, location) / 1000).toFixed(2)
@@ -192,7 +192,7 @@ const Home = props => {
                             {props.currentParking.location_name}
                         </Text>
                     </View>
-                    <View style={{
+                    {distanceToDest > 1.5 && <View style={{
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>
@@ -200,7 +200,7 @@ const Home = props => {
                         icon="alert-circle-outline"
                         color="#fff"
                         />
-                    </View>
+                    </View>}
                     <View style={{
                         borderLeftWidth: 0.2,
                         width: 50,

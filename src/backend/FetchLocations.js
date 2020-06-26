@@ -20,7 +20,6 @@ export async function getSlots(location_id) {
         id: slot.id
     }));
 
-    console.log(slotArray)
 
     return slotArray
 }
@@ -47,3 +46,15 @@ export async function getParkingSpace(location_id) {
 
 // addSlots(location_id, slotArray)
 
+
+export const getUserHistory = async (id) => {
+    const userHistory = await firestore().collection(`users/${id}/history`).get()
+    const dataArr = []
+
+    userHistory.forEach(h => {
+           
+            dataArr.push(h.data())
+    })
+
+    return dataArr;
+}

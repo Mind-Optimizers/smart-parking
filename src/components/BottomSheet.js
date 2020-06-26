@@ -68,7 +68,7 @@ const BottomSheet = props => {
                         
                     </View>
                 </RadioButton.Group>
-                <Button mode="contained" disabled={!duration} onPress={props.onChoose}>CONTINUE</Button>
+                <Button mode="contained" disabled={!duration} onPress={() => props.onChoose(duration)}>CONTINUE</Button>
             </RNBottomSheet>
         </View>
     )

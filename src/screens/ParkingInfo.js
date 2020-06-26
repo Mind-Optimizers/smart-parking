@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { View, Image, StatusBar, Text } from 'react-native'
+import { View, Image, StatusBar, Text, ToastAndroid } from 'react-native'
 
 //styles
 import { ParkingInfoStyles as styles } from '../styles/ParkingInfoStyles'
@@ -16,7 +16,7 @@ import { lockSlot, generateSlot } from '../backend/ticket'
 import ConfirmationDialog from '../components/ConfirmationDialog'
 import { connect } from 'react-redux';
 
-const ParkingInfo = ({ navigation, route, user }) => {
+const ParkingInfo = ({ navigation, route, user, currentParking }) => {
 
     StatusBar.setBackgroundColor('transparent')
     StatusBar.setBarStyle("light-content")
@@ -86,19 +86,26 @@ const ParkingInfo = ({ navigation, route, user }) => {
                 icon="ticket-confirmation"
                 style={styles.bookBtn}
                 size={20} 
+                
                 label="Book Now"
-                onPress={() => bottomSheet.current.open()}
+                onPress={() => {
+                    if (currentParking.location_name) {
+                        ToastAndroid.show('You already have an active booking.', ToastAndroid.LONG) 
+                        return
+                    }
+                    bottomSheet.current.open()
+                }}
             />
 
             <BottomSheet 
             innerRef={bottomSheet}
-            onChoose={async () => {
+            onChoose={async (duration) => {
                 bottomSheet.current.close()
                 setLoading(true)
                 try {
                     const slotId = await lockSlot(data.id, data.rate)
                     console.log(`${slotId} locked`)
-                    const {ticket, name} = await generateSlot(data.id, slotId, user.id)
+                    const {ticket, name} = await generateSlot(data.id, slotId, user.id, duration)
                     navigation.navigate('QRPage', {
                         ticket,
                         name,
@@ -118,4 +125,4 @@ const ParkingInfo = ({ navigation, route, user }) => {
     )
 }
 
-export default connect(({user}) => ({user}))(ParkingInfo)
+export default connect(({user, currentParking}) => ({user, currentParking}))(ParkingInfo)
